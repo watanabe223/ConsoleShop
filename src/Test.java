@@ -13,11 +13,12 @@ public class Test {
         String password = sc.next();
         System.out.println("你输入的密码为：" + password);
 
-        File file =new File("E:\\2345Downloads\\user.xlsx");
+        File file =new File("D:\\Youku Files\\user.xlsx");
         ReadExcel readExcel = new ReadExcel();//创建对象
-        User usera[]=readExcel.readExcel(file);
+        User users[]=readExcel.readExcel(file);
         for(int i=0;i<users.length;i++){
-            if(username.equals(user[i].getUsername()) && password.equals(users[i].getPassword())){
+            if(username.equals(users[i].getUsername()) && password.equals(users[i].getPassword())){
+                System.out.println("登录成功");
                 break;
             }else{
                 System.out.println("登录失败");
