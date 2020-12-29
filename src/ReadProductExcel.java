@@ -9,10 +9,10 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 
 public class ReadProductExcel {
-    public Product[] readExcel(InputStream in) {
+    public Product getProductById(String Id,InputStream inPro) {
         Product products[] = null;
         try {
-            XSSFWorkbook xw = new XSSFWorkbook(in);
+            XSSFWorkbook xw = new XSSFWorkbook(inPro);
             XSSFSheet xs = xw.getSheetAt(0);
             products = new Product[xs.getLastRowNum()];
             for (int j = 1; j <= xs.getLastRowNum(); j++) {
@@ -32,18 +32,20 @@ public class ReadProductExcel {
                         product.setpDescribe(this.getValue(cell));
                     }
                 }
-                products[j-1] = product;
+                if(Id.equals(product.getpId())){
+                    return product;
+                }
             }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-        return products;
+        return null;
     }
 
     private String getValue(XSSFCell cell) {
         String value;
-        CellType type = cell.getCellTypeEnum();
+        CellType type = cell.getCellType();
         DecimalFormat df = new DecimalFormat("#");
         switch (type) {
             case STRING:
