@@ -40,6 +40,7 @@ public class Test {
                     String pId=sc.next();
                     ReadProductExcel readProductExcel1=new ReadProductExcel();
                     inPro = null;
+                    inPro = Class.forName("Test").getResourceAsStream("/product.xlsx");
                     Product product = readProductExcel1.getProductById(pId,inPro);
                     if(product!=null){
                         productes[count++]=product;
