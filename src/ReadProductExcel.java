@@ -9,12 +9,42 @@ import java.io.InputStream;
 import java.text.DecimalFormat;
 
 public class ReadProductExcel {
-    public Product getProductById(String Id,InputStream inPro) {
+    public Product[] getAllProduct(InputStream in) {
         Product products[] = null;
+        try {
+            XSSFWorkbook xw = new XSSFWorkbook(in);
+            XSSFSheet xs = xw.getSheetAt(0);
+            products = new Product[xs.getLastRowNum()];
+            for (int j = 1; j <= xs.getLastRowNum(); j++) {
+                XSSFRow row = xs.getRow(j);
+                Product product = new Product();//每循环一次就把电子表格的一行的数据给对象赋值
+                for (int k = 0; k <= row.getLastCellNum(); k++) {
+                    XSSFCell cell = row.getCell(k);
+                    if (cell == null)
+                        continue;
+                    if (k == 0) {
+                        product.setpId(this.getValue(cell));
+                    } else if (k == 1) {
+                        product.setpName(this.getValue(cell));
+                    } else if (k == 2) {
+                        product.setPrice(this.getValue(cell));
+                    } else if (k == 3) {
+                        product.setpDescribe(this.getValue(cell));
+                    }
+                }
+                products[j-1] = product;
+                }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return products;
+    }
+
+    public Product getProductById(String Id,InputStream inPro){
         try {
             XSSFWorkbook xw = new XSSFWorkbook(inPro);
             XSSFSheet xs = xw.getSheetAt(0);
-            products = new Product[xs.getLastRowNum()];
             for (int j = 1; j <= xs.getLastRowNum(); j++) {
                 XSSFRow row = xs.getRow(j);
                 Product product = new Product();//每循环一次就把电子表格的一行的数据给对象赋值

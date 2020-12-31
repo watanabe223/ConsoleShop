@@ -23,10 +23,11 @@ public class Test {
             for (int i = 0; i < users.length; i++) {
                 if (username.equals(users[i].getUsername()) && password.equals(users[i].getPassword())) {
                     System.out.println("登录成功");
+                    bo = false;
 
                     //显示商品信息
                     ReadProductExcel readProductExcel =new ReadProductExcel();
-                    Product products[] = readProductExcel.readExcel(inPro);
+                    Product products[] = readProductExcel.getAllProduct(inPro);
                     for(Product product:products){
                         System.out.print(product.getpId());
                         System.out.print("\t"+product.getpName());
@@ -35,7 +36,7 @@ public class Test {
                     }
 
                     int count=0;
-                    Product productes[]=new Product[4];
+                    Product shopCarts[]=new Product[4];
                     System.out.println("请输入商品ID，将商品加入购物车");
                     String pId=sc.next();
                     ReadProductExcel readProductExcel1=new ReadProductExcel();
@@ -43,9 +44,27 @@ public class Test {
                     inPro = Class.forName("Test").getResourceAsStream("/product.xlsx");
                     Product product = readProductExcel1.getProductById(pId,inPro);
                     if(product!=null){
-                        productes[count++]=product;
+                        shopCarts[count++]=product;
                     }
-                    bo = false;
+
+                    System.out.println("查看购物车请按【1】，继续购物请按【2】");
+                    int choose=sc.nextInt();{
+                        if(choose==1){
+                            for(i=0;i<shopCarts.length;i++){
+                                System.out.print(shopCarts[i].getpId());
+                                System.out.print("\t"+shopCarts[i].getpName());
+                                System.out.print("\t"+shopCarts[i].getPrice());
+                                System.out.println("\t"+shopCarts[i].getpDescribe());
+                            }
+                        }else if(choose==2){
+                            for(Product product1:products){
+                                System.out.print(product1.getpId());
+                                System.out.print("\t"+product1.getpName());
+                                System.out.print("\t"+product1.getPrice());
+                                System.out.println("\t"+product1.getpDescribe());
+                            }
+                        }
+                    }
                     break;
                 } else {
                     System.out.println("登录失败");
