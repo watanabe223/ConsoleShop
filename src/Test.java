@@ -50,18 +50,34 @@ public class Test {
                     System.out.println("查看购物车请按【1】，继续购物请按【2】");
                     int choose=sc.nextInt();{
                         if(choose==1){
-                            for(i=0;i<shopCarts.length;i++){
-                                System.out.print(shopCarts[i].getpId());
-                                System.out.print("\t"+shopCarts[i].getpName());
-                                System.out.print("\t"+shopCarts[i].getPrice());
-                                System.out.println("\t"+shopCarts[i].getpDescribe());
+                            if(shopCarts!=null) {
+                                for (int j = 0; j < shopCarts.length; j++) {
+                                    System.out.print(shopCarts[j].getpId());
+                                    System.out.print("\t" + shopCarts[j].getpName());
+                                    System.out.print("\t" + shopCarts[j].getPrice());
+                                    System.out.println("\t" + shopCarts[j].getpDescribe());
+                                }
                             }
                         }else if(choose==2){
-                            for(Product product1:products){
-                                System.out.print(product1.getpId());
-                                System.out.print("\t"+product1.getpName());
-                                System.out.print("\t"+product1.getPrice());
-                                System.out.println("\t"+product1.getpDescribe());
+                            readProductExcel =new ReadProductExcel();
+                            inPro = null;
+                            inPro = Class.forName("Test").getResourceAsStream("/product.xlsx");
+                            products = readProductExcel.getAllProduct(inPro);
+                            for(Product p:products){
+                                System.out.print(p.getpId());
+                                System.out.print("\t"+p.getpName());
+                                System.out.print("\t"+p.getPrice());
+                                System.out.println("\t"+p.getpDescribe());
+                            }
+
+                            System.out.println("请输入商品ID，将商品加入购物车");
+                            pId=sc.next();
+                            readProductExcel1=new ReadProductExcel();
+                            inPro = null;
+                            inPro = Class.forName("Test").getResourceAsStream("/product.xlsx");
+                            Product product1 = readProductExcel1.getProductById(pId,inPro);
+                            if(product!=null){
+                                shopCarts[count++]=product1;
                             }
                         }
                     }
